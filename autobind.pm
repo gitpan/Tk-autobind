@@ -1,11 +1,11 @@
 ##==============================================================================
 ## Tk::autobind - automatically bind a widget to an ALT-key
 ##==============================================================================
-## Copyright 2001 Kevin Michael Vail.  All rights reserved.
+## Copyright 2001-2003 Kevin Michael Vail.  All rights reserved.
 ## This program is free software; you can redistribute it and/or modify it
 ## under the same terms as Perl itself.
 ##==============================================================================
-## $Id: autobind.pm,v 1.1 2001/09/01 02:36:35 kevin Exp $
+## $Id: autobind.pm,v 1.2 2003/06/17 01:23:39 kevin Exp $
 ##==============================================================================
 require 5.005;
 
@@ -13,7 +13,7 @@ package Tk::autobind;
 use Tk;
 use strict;
 use vars qw($VERSION);
-($VERSION) = q$Revision: 1.1 $ =~ /^Revision:\s+(\S+)/ or $VERSION = "0.0";
+($VERSION) = q$Revision: 1.2 $ =~ /^Revision:\s+(\S+)/ or $VERSION = "0.0";
 
 =head1 NAME
 
@@ -71,10 +71,12 @@ you can stick B<autobind> before the call to B<pack>:
 ##==============================================================================
 sub Tk::Widget::autobind {
     my ($widget, $callback) = @_;
-    my $underline = $widget->cget('-underline');
-    unless ($underline < 0) {
-        my $key = substr($widget->cget('-text'), $underline, 1);
-        if (defined $key) {
+    my $underline;
+    $underline = eval { $widget->cget('-underline') };
+    if (!$@ && defined $underline && $underline >= 0) {
+    	my $key;
+    	$key = eval { substr($widget->cget('-text'), $underline, 1) };
+        if (!$@ && defined $key) {
             $callback = sub { $widget->Invoke; } unless defined $callback;
             $widget->toplevel->bind("<Alt-Key-\L$key>", $callback);
         }
@@ -100,6 +102,10 @@ Kevin Michael Vail F<< <kevin@vaildc.net> >>
 
 ##==============================================================================
 ## $Log: autobind.pm,v $
+## Revision 1.2  2003/06/17 01:23:39  kevin
+## Gracefully handle things when applied to a widget that doesn't
+## _have_ an -underline or a -text config option.
+##
 ## Revision 1.1  2001/09/01 02:36:35  kevin
 ## Allow this to work for dialogs, too.
 ##

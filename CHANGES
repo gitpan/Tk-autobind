@@ -5,3 +5,7 @@ Revision history for Perl extension Tk::autobind.
 
 1.1   Fri Aug 31 22:41:11 EDT 2001
 	- Change to set binding on toplevel rather than MainWindow
+
+1.2   Mon Jun 16 21:24:14 EDT 2003
+	- Change to more gracefully handle the case where autobind is applied
+	  to a widget that doesn't have a -underline or -text option.
