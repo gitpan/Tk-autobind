@@ -1,6 +1,0 @@
-Revision history for Perl extension Tk::autobind.
-
-0.01  Sun Aug 26 20:23:58 2001
-	- original version; created by h2xs 1.1.1.4 with options
-		-XA Tk::autobind
-

@@ -5,7 +5,7 @@
 ## This program is free software; you can redistribute it and/or modify it
 ## under the same terms as Perl itself.
 ##==============================================================================
-## $Id: autobind.pm,v 1.0 2001-08-24 11:22:14-04 kevin Exp $
+## $Id: autobind.pm,v 1.1 2001/09/01 02:36:35 kevin Exp $
 ##==============================================================================
 require 5.005;
 
@@ -13,7 +13,7 @@ package Tk::autobind;
 use Tk;
 use strict;
 use vars qw($VERSION);
-($VERSION) = q$Revision: 1.0 $ =~ /^Revision:\s+(\S+)/ or $VERSION = "0.0";
+($VERSION) = q$Revision: 1.1 $ =~ /^Revision:\s+(\S+)/ or $VERSION = "0.0";
 
 =head1 NAME
 
@@ -43,7 +43,7 @@ invoked.
 
 The binding that is generated is essentially
 
-C<< $widget->MainWindow->bind('<Alt-Key-I<x>>', $callback); >>
+C<< $widget->toplevel->bind('<Alt-Key-I<x>>', $callback); >>
 
 =head1 METHODS
 
@@ -76,7 +76,7 @@ sub Tk::Widget::autobind {
         my $key = substr($widget->cget('-text'), $underline, 1);
         if (defined $key) {
             $callback = sub { $widget->Invoke; } unless defined $callback;
-            $widget->MainWindow->bind("<Alt-Key-\L$key>", $callback);
+            $widget->toplevel->bind("<Alt-Key-\L$key>", $callback);
         }
     }
     return $widget;
@@ -100,6 +100,9 @@ Kevin Michael Vail F<< <kevin@vaildc.net> >>
 
 ##==============================================================================
 ## $Log: autobind.pm,v $
+## Revision 1.1  2001/09/01 02:36:35  kevin
+## Allow this to work for dialogs, too.
+##
 ## Revision 1.0  2001-08-24 11:22:14-04  kevin
 ## Initial revision
 ##==============================================================================

@@ -24,7 +24,7 @@ DESCRIPTION
 
     The binding that is generated is essentially
 
-    `$widget->MainWindow->bind('<Alt-Key-*x*>', $callback);'
+    `$widget->toplevel->bind('<Alt-Key-*x*>', $callback);'
 
 METHODS
     $widget->autobind(callback);
